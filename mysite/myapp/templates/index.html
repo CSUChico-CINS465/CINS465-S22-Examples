@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> {{ title }} </title>
+</head>
+<body>
+<p>{{ paragraph }}</p>
+<ul>
+{% for o in data %}
+    <li>{{ o }}</li>
+{% endfor %}
+</ul>
+{% if page != 0 %}
+    <a href="/{{ prev }}"/>prev</a>
+{% endif %}
+<a href="/{{ next }}/">next</a>
+</body>
+</html>
+
+
+<!-- <a href="suspicious site">Click Me</a> -->
