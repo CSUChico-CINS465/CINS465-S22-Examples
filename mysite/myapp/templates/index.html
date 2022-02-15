@@ -8,14 +8,9 @@
     <div class="grid-x grid-padding-x">
         {% for o in data %}
         <div class="large-4 medium-6 small-12 cell">
-            <p>{{ o }}</p>
+            <p>{{ o.suggestion }}</p>
         </div>
         {% endfor %}
     </div>
 </div>
-
-{% if page != 0 %}
-<a href="/{{ prev }}" class="button"/>prev</a>
-{% endif %}
-<a href="/{{ next }}/" class="button">next</a>
 {% endblock %}
