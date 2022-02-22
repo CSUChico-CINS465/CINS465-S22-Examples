@@ -3,12 +3,22 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<p>{{ paragraph }}</p>
 <div class="grid-container">
     <div class="grid-x grid-padding-x">
         {% for o in data %}
-        <div class="large-4 medium-6 small-12 cell">
-            <p>{{ o.suggestion }}</p>
+        <div class="large-12 medium-12 small-12 cell">
+            <p>{{ o.suggestion }} - {{ o.author }}</p>
+            {% if o.num_comms > 0 %}
+            <div class="grid-container">
+                <div class="grid-x grid-padding-x">
+                    {% for comm in o.comments %}
+                    <div class="large-12 medium-12 small-12 cell">
+                        <p>{{ comm.comment }} - {{ comm.author }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

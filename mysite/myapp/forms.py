@@ -25,12 +25,10 @@ class SuggestionForm(forms.Form):
     suggestion_field = forms.CharField(
         label='Suggestion',
         max_length=240,
-        validators=[
-            validate_email
-            ]
     )
 
-    def save(self):
+    def save(self, request):
         suggestion_instance = models.SuggestionModel()
         suggestion_instance.suggestion = self.cleaned_data["suggestion_field"]
+        suggestion_instance.author = request.user
         suggestion_instance.save()
