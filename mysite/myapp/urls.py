@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('<int:page>/', views.index),
+    path('suggestions/', views.suggestion_view),
 ]

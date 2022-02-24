@@ -1,9 +1,29 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="grid-container">
+{% verbatim %}
+
+<div id="app">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="large-12 medium-12 small-12 cell" v-for="sugg in suggestions">
+                <p>{{ sugg.suggestion }} - {{ sugg.author }}</p>
+                <div v-if="sugg.num_comms > 0" class="grid-container">
+                    <div class="grid-x grid-padding-x">
+                        <div class="large-12 medium-12 small-12 cell" v-for="comm in sugg.comments">
+                            <p>{{ comm.comment }} - {{ comm.author }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endverbatim %}
+<!-- <div class="grid-container">
     <div class="grid-x grid-padding-x">
         {% for o in data %}
         <div class="large-12 medium-12 small-12 cell">
@@ -22,10 +42,19 @@
         </div>
         {% endfor %}
     </div>
-</div>
+</div> -->
+
+{% if request.user.is_authenticated %}
 <form action="/" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" class="button" value="Submit">
 </form>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/myvue.js' %}"></script>
 {% endblock %}
