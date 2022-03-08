@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User as auth_user
 from django.core.validators import validate_slug, validate_email
 
 from . import models
@@ -21,6 +23,13 @@ def must_be_ten(value):
     # Always return the cleaned data
     return value
 
+def must_be_unique(value):
+    users = auth_user.objects.filter(email=value)
+    if len(users) >= 1:
+        raise forms.ValidationError("User with that email already exists")
+    return value
+
+
 class SuggestionForm(forms.Form):
     suggestion_field = forms.CharField(
         label='Suggestion',
@@ -32,3 +41,26 @@ class SuggestionForm(forms.Form):
         suggestion_instance.suggestion = self.cleaned_data["suggestion_field"]
         suggestion_instance.author = request.user
         suggestion_instance.save()
+
+class RegistrationForm(UserCreationForm):
+    email = forms.EmailField(
+        label="Email",
+        required=True,
+        validators=[must_be_unique]
+    )
+
+    class Meta:
+        model = auth_user
+        fields = (
+            "username",
+            "email",
+            "password1",
+            "password2"
+        )
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user

@@ -23,26 +23,6 @@
     </div>
 </div>
 {% endverbatim %}
-<!-- <div class="grid-container">
-    <div class="grid-x grid-padding-x">
-        {% for o in data %}
-        <div class="large-12 medium-12 small-12 cell">
-            <p>{{ o.suggestion }} - {{ o.author }}</p>
-            {% if o.num_comms > 0 %}
-            <div class="grid-container">
-                <div class="grid-x grid-padding-x">
-                    {% for comm in o.comments %}
-                    <div class="large-12 medium-12 small-12 cell">
-                        <p>{{ comm.comment }} - {{ comm.author }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
-</div> -->
 
 {% if request.user.is_authenticated %}
 <form action="/" method="post">

@@ -1,11 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from . import models
 from . import forms
 
+def logout_view(request):
+    logout(request)
+    return redirect("/login/")
+
 # Create your views here.
+@login_required
 def index(request, page=0):
+    # if not request.user.is_authenticated:
+    #     return redirect("/login/")
     if request.method == "POST":
         if request.user.is_authenticated:
             form = forms.SuggestionForm(request.POST)
@@ -41,6 +50,20 @@ def index(request, page=0):
         "form": form,
     }
     return render(request, "index.html", context=context)
+
+def registration_view(request):
+    if request.method == "POST":
+        form = forms.RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/login/")
+    else:
+        form = forms.RegistrationForm()
+    context = {
+        "title": "Register",
+        "form": form,
+    }
+    return render(request, "registration/registration.html", context=context)
 
 def suggestion_view(request):
     if request.method == "GET":
