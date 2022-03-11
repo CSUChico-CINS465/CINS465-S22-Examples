@@ -35,11 +35,23 @@ class SuggestionForm(forms.Form):
         label='Suggestion',
         max_length=240,
     )
+    image_field = forms.ImageField(
+        label='Image',
+        max_length=144,
+        required=False
+    )
+    image_desc_field = forms.CharField(
+        label='Image Description',
+        max_length=240,
+        required=False
+    )
 
     def save(self, request):
         suggestion_instance = models.SuggestionModel()
         suggestion_instance.suggestion = self.cleaned_data["suggestion_field"]
         suggestion_instance.author = request.user
+        suggestion_instance.image = self.cleaned_data["image_field"]
+        suggestion_instance.image_description = self.cleaned_data["image_desc_field"]
         suggestion_instance.save()
 
 class RegistrationForm(UserCreationForm):

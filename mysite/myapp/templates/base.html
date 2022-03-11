@@ -28,6 +28,7 @@
         <div class="top-bar-right">
           <ul class="menu">
             {% if request.user.is_authenticated %}
+            <li><a href="/suggestion/">Add Suggestion</a></li>
             <li>Welcome {{ request.user.username }}</li>
             {% else %}
             <li>Welcome Guest</li>

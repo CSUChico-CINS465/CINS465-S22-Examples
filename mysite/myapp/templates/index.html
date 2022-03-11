@@ -11,6 +11,8 @@
         <div class="grid-x grid-padding-x">
             <div class="large-12 medium-12 small-12 cell" v-for="sugg in suggestions">
                 <p>{{ sugg.suggestion }} - {{ sugg.author }}</p>
+                <img v-if="sugg.image != ''" v-bind:src="sugg.image" v-bind:alt="sugg.image_desc" width="150"/>
+                <p>Created on: {{ sugg.date }}</p>
                 <div v-if="sugg.num_comms > 0" class="grid-container">
                     <div class="grid-x grid-padding-x">
                         <div class="large-12 medium-12 small-12 cell" v-for="comm in sugg.comments">
@@ -24,13 +26,7 @@
 </div>
 {% endverbatim %}
 
-{% if request.user.is_authenticated %}
-<form action="/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" class="button" value="Submit">
-</form>
-{% endif %}
+
 {% endblock %}
 
 {% block scripts %}
