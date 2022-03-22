@@ -14,4 +14,5 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view()),
     path('register/', views.registration_view),
     path('logout/', views.logout_view),
+    path('comment/<int:sugg_id>/', views.add_comment_view),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
