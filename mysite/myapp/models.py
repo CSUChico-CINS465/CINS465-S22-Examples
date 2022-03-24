@@ -25,7 +25,6 @@ class SuggestionModel(models.Model):
         return self.author.username + " " + self.suggestion
 
 
-
 class CommentModel(models.Model):
     comment = models.CharField(max_length=240)
     author = models.ForeignKey(
