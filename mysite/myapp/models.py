@@ -22,7 +22,7 @@ class SuggestionModel(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.suggestion
+        return self.author.username + " " + self.suggestion
 
 
 
@@ -39,4 +39,4 @@ class CommentModel(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.comment
+        return self.author.username + " " + self.comment
