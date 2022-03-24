@@ -1,4 +1,14 @@
 asgiref==3.5.0
+astroid==2.9.3
 Django==4.0.2
+isort==5.10.1
+lazy-object-proxy==1.7.1
+mccabe==0.6.1
 Pillow==9.0.1
+platformdirs==2.5.1
+pylint==2.12.2
+pylint-django==2.5.2
+pylint-plugin-utils==0.7
 sqlparse==0.4.2
+toml==0.10.2
+wrapt==1.13.3

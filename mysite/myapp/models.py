@@ -22,9 +22,8 @@ class SuggestionModel(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "%s" % (
-            self.suggestion
-        )
+        return self.suggestion
+
 
 
 class CommentModel(models.Model):
@@ -40,6 +39,4 @@ class CommentModel(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "%s" % (
-            self.comment
-        )
+        return self.comment

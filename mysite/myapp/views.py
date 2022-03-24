@@ -42,7 +42,7 @@ def add_suggestion_view(request):
 
 # Create your views here.
 @login_required
-def index(request, page=0):
+def index(request):
     context = {
         "title": "CINS465",
     }
@@ -61,6 +61,20 @@ def registration_view(request):
         "form": form,
     }
     return render(request, "registration/registration.html", context=context)
+
+def time_format(time_diff_s, comm_instance, comm):
+    if time_diff_s < 60:
+        comm_instance["date"] = "published " + str(int(time_diff_s)) + " seconds ago"
+    else:
+        time_diff_m = divmod(time_diff_s,60)[0]
+        if time_diff_m < 60:
+            comm_instance["date"] = "published " + str(int(time_diff_m)) + " minutes ago"
+        else:
+            time_diff_h = divmod(time_diff_m,60)[0]
+            if time_diff_h < 24:
+                comm_instance["date"] = "published " + str(int(time_diff_h)) + " hours ago"
+            else:
+                comm_instance["date"] = comm.published_on.strftime("%Y-%m-%d")
 
 def suggestion_view(request):
     if request.method == "GET":
@@ -89,18 +103,7 @@ def suggestion_view(request):
                 sugg_instance["comments"] += [comm_instance]
                 time_diff = datetime.datetime.now(datetime.timezone.utc) - comm.created_on
                 time_diff_s = time_diff.total_seconds()
-                if time_diff_s < 60:
-                    comm_instance["date"] = "published " + str(int(time_diff_s)) + " seconds ago"
-                else:
-                    time_diff_m = divmod(time_diff_s,60)[0]
-                    if time_diff_m < 60:
-                        comm_instance["date"] = "published " + str(int(time_diff_m)) + " minutes ago"
-                    else:
-                        time_diff_h = divmod(time_diff_m,60)[0]
-                        if time_diff_h < 24:
-                            comm_instance["date"] = "published " + str(int(time_diff_h)) + " hours ago"
-                        else:
-                            comm_instance["date"] = comm.published_on.strftime("%Y-%m-%d")
+                time_format(time_diff_s, comm_instance, comm)
             data_list["suggestions"].append(sugg_instance)
         return JsonResponse(data_list)
     return HttpResponse("You're doing it wrong")
