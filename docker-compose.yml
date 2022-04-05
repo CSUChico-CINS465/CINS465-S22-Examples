@@ -1,5 +1,5 @@
 #adapted from example in docker documentation
-version: '3'
+version: '3.7'
 
 services:
   web:
@@ -13,18 +13,43 @@ services:
     expose:
        - 8000
     user: 1001:1002 ## needed for linux
-    command: python /code/mysite/manage.py runserver 0.0.0.0:8000
+    # command: python /code/mysite/manage.py runserver 0.0.0.0:8000
+    working_dir: /code/mysite
+    command: daphne -b 0.0.0.0 -p 8000 mysite.asgi:application
 
   redis:
     image: redis:latest
     expose:
       - 6379
 
-  nginx:
-    build: ./nginx/
-    ports:
-      - 80:80
+  # nginx:
+  #   build: ./nginx/
+  #   restart: always
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #      - ./mysite/static/:/static
+  #   links:
+  #     - web:web
+  #   depends_on:
+  #     - web
+  caddy:
+    image: caddy:2.4.6
+    restart: unless-stopped
     links:
       - web:web
     depends_on:
       - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/mysite/static:/srv/static/
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
