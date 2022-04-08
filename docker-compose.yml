@@ -13,9 +13,9 @@ services:
     expose:
        - 8000
     user: 1001:1002 ## needed for linux
-    # command: python /code/mysite/manage.py runserver 0.0.0.0:8000
-    working_dir: /code/mysite
-    command: daphne -b 0.0.0.0 -p 8000 mysite.asgi:application
+    command: python /code/mysite/manage.py runserver 0.0.0.0:8000
+    # working_dir: /code/mysite
+    # command: daphne -b 0.0.0.0 -p 8000 mysite.asgi:application
 
   redis:
     image: redis:latest
@@ -34,6 +34,8 @@ services:
   #     - web:web
   #   depends_on:
   #     - web
+
+
   caddy:
     image: caddy:2.4.6
     restart: unless-stopped

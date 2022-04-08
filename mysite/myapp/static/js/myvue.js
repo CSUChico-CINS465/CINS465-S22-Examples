@@ -10,7 +10,7 @@ var myapp = Vue.createApp({
         axios.get('/suggestions/')
             .then(function (response) {
                 // handle success
-                myapp.suggestions = response.data.suggestions;
+                this.suggestions = response.data.suggestions;
                 console.log(response);
             })
             .catch(function (error) {
@@ -21,7 +21,7 @@ var myapp = Vue.createApp({
             axios.get('/suggestions/')
             .then(function (response) {
                 // handle success
-                myapp.suggestions = response.data.suggestions;
+                this.suggestions = response.data.suggestions;
                 console.log(response);
             })
             .catch(function (error) {
