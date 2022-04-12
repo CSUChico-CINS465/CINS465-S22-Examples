@@ -12,16 +12,27 @@ services:
        - redis
     expose:
        - 8000
+    environment:
+       - GOOGLE_APPLICATION_CREDENTIALS=/code/mysite/cins465-cloudkey.json
     user: 1001:1002 ## needed for linux
-    command: python /code/mysite/manage.py runserver 0.0.0.0:8000
-    # working_dir: /code/mysite
-    # command: daphne -b 0.0.0.0 -p 8000 mysite.asgi:application
+    # command: python /code/mysite/manage.py runserver 0.0.0.0:8000
+    working_dir: /code/mysite
+    command: daphne -b 0.0.0.0 -p 8000 mysite.asgi:application
 
   redis:
     image: redis:latest
     expose:
       - 6379
 
+  wasm:
+    build: ./wasm/
+    environment:
+       - USER=bryandixon
+    volumes:
+       - .:/code
+    working_dir: /code/hello-wasm/
+    # command: wasm-pack build . target --web
+    # user: 1001:1002
   # nginx:
   #   build: ./nginx/
   #   restart: always
@@ -49,6 +60,7 @@ services:
     volumes:
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
       - $PWD/mysite/static:/srv/static/
+      - $PWD/hello-wasm/pkg/:/srv/wasm/
       - caddy_data:/data
       - caddy_config:/config
 

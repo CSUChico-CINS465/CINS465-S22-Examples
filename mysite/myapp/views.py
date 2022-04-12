@@ -102,7 +102,7 @@ def time_format(time_diff_s, comm_instance, comm):
             if time_diff_h < 24:
                 comm_instance["date"] = "published " + str(int(time_diff_h)) + " hours ago"
             else:
-                comm_instance["date"] = comm.published_on.strftime("%Y-%m-%d")
+                comm_instance["date"] = comm.created_on.strftime("%Y-%m-%d")
 
 def suggestion_view(request):
     if request.method == "GET":
