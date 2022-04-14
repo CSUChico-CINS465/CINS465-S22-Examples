@@ -52,10 +52,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{% static 'js/myvue.js' %}"></script>
     <script type="module">
-        import init, { greet } from '/wasm/hello_wasm.js';
+        import init, { greet, run_app } from '/wasm/hello_wasm.js';
         async function run(){
             await init();
             greet("CINS465");
+            run_app();
             // And afterwards we can use all the functionality defined in wasm.
         }
         run();
