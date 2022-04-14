@@ -31,6 +31,7 @@
             <li><a href="/suggestion/">Add Suggestion</a></li>
             <li>Welcome {{ request.user.username }}</li>
             {% else %}
+            <li><a href="{% url "social:begin" "google-oauth2" %}">Login w/ Google</a></li>
             <li>Welcome Guest</li>
             {% endif %}
           </ul>

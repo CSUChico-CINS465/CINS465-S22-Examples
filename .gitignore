@@ -240,3 +240,4 @@ Temporary Items
 mysite/media
 nginx/ssl/
 mysite/cins465-cloudkey.json
+mysite/social-key.json

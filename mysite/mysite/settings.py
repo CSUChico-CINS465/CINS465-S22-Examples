@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'myapp',
 ]
 
@@ -77,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -153,3 +157,25 @@ DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'cins465'
 
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+#SOCIAL AUTH
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+secret_file = open(str(BASE_DIR)+"/social-key.json","r")
+secrets = json.load(secret_file)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secrets["client_id"]
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secrets["secret"]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
+]
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
